@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,13 +32,14 @@ public class Student {
     @Column
     private String avgGrade;
 
-    public Student(String firstName, String lastName, String DOB, String courseTitle, String courseStartDate, String avgGrade) {
+    @ManyToMany
+    @JoinTable(name = "student_courses", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses = new HashSet<>();
+
+    public Student(String firstName, String lastName, String DOB) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DOB = DOB;
-        this.courseTitle = courseTitle;
-        this.courseStartDate = courseStartDate;
-        this.avgGrade = avgGrade;
     }
 
     public Student(int id) {
